@@ -1,6 +1,8 @@
 connection: "snowflakelooker"
 
 # include all the views
+#comment
+
 include: "/views/**/*.view"
 
 datagroup: sarah_is_number_1_default_datagroup {
