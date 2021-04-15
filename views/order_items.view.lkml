@@ -84,6 +84,7 @@ view: order_items {
   dimension: status {
     type: string
     sql: ${TABLE}."STATUS" ;;
+    #suggestions: ["@{joel}"]
   }
 
   dimension: user_id {

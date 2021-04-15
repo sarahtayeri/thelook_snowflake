@@ -27,6 +27,13 @@ view: products {
     sql: ${TABLE}."ID" ;;
   }
 
+  dimension: format_bug {
+    type: number
+    sql: ${id};;
+    #value_format: "[>=1000]$#,##0,\"K\";[<=-1000]$#,##0,\"K\""
+    #value_format: "@{usd_in_thousands_value_format}"
+  }
+
   dimension: brand {
     type: string
     sql: ${TABLE}."BRAND" ;;

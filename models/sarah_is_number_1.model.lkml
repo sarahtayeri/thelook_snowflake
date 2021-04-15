@@ -12,11 +12,14 @@ datagroup: sarah_is_number_1_default_datagroup {
 
 persist_with: sarah_is_number_1_default_datagroup
 
+explore: derived_parameter {}
+
 explore: distribution_centers {}
 
 explore: etl_jobs {}
 
 explore: events {
+  tags: ["Zach"]
   join: users {
     type: left_outer
     sql_on: ${events.user_id} = ${users.id} ;;
@@ -72,4 +75,6 @@ explore: products {
   }
 }
 
-explore: users {}
+explore: users {
+  sql_always_where: {% if users.city._is_selected %} users."CITY" = 'San Francisco' {% else %} 1=1 {% endif %} ;;
+}

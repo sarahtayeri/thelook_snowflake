@@ -11,6 +11,7 @@ view: users {
 
   dimension: age {
     type: number
+    description: "The age of the user"
     sql: ${TABLE}."AGE" ;;
   }
 
@@ -31,6 +32,7 @@ view: users {
       raw,
       time,
       date,
+      day_of_week,
       week,
       month,
       quarter,
@@ -72,6 +74,7 @@ view: users {
   dimension: state {
     type: string
     sql: ${TABLE}."STATE" ;;
+    map_layer_name: us_states
   }
 
   dimension: traffic_source {
