@@ -19,7 +19,6 @@ explore: distribution_centers {}
 explore: etl_jobs {}
 
 explore: events {
-  tags: ["Zach"]
   join: users {
     type: left_outer
     sql_on: ${events.user_id} = ${users.id} ;;
@@ -68,13 +67,14 @@ explore: order_items {
 }
 
 explore: products {
+  sql_always_where:
+  {% if products.andrea_param._parameter_value == 'blueberries' %} ${products.department} = "blueberries"
+  {% elsif products.andrea_param._parameter_value == 'raspberries' %} ${products.department} = "raspberries"
+  {% else %} 1=1
+  {% endif %};;
   join: distribution_centers {
     type: left_outer
     sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
     relationship: many_to_one
   }
-}
-
-explore: users {
-  sql_always_where: {% if users.city._is_selected %} users."CITY" = 'San Francisco' {% else %} 1=1 {% endif %} ;;
 }

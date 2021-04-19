@@ -8,6 +8,26 @@ view: products {
     type: date
   }
 
+  parameter: andrea_param {
+    type: unquoted
+    allowed_value: {
+      value: "blueberries"
+      label: "blueberries"
+    }
+    allowed_value: {
+      value: "raspberries"
+      label: "raspberries"
+    }
+  }
+
+  dimension: andrea_dim {
+    sql: {% if products.andrea_param._parameter_value == 'blueberries' %} 'bleubs'
+  {% elsif products.andrea_param._parameter_value == 'raspberries' %} 'rasps'
+  {% else %} 'c'
+  {% endif %} ;;
+  }
+
+
 
 
   measure: sum_in_billions {
@@ -44,9 +64,25 @@ view: products {
     sql: ${TABLE}."CATEGORY" ;;
   }
 
+  dimension: seconds {
+    type: number
+    sql: 61 ;;
+  }
+
+  measure: bug {
+    type: number
+    sql: ${seconds} / (CAST(86400 AS DOUBLE));;
+    value_format: "HH:MM:SS"
+  }
+
   dimension: cost {
     type: number
     sql: ${TABLE}."COST" ;;
+    # link: {
+    #   url: "www.google.com"
+    #   label: "google"
+    # }
+    html:  <a href="https://www.google.com">{{ value }}</a> ;;
   }
 
   dimension: over_100 {

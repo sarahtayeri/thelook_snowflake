@@ -23,6 +23,11 @@ view: order_items {
     sql: ${TABLE}."CREATED_AT" ;;
   }
 
+
+  dimension: view_name {
+    sql: {{ _view._name }} ;;
+  }
+
   dimension_group: delivered {
     type: time
     timeframes: [
@@ -85,6 +90,12 @@ view: order_items {
     type: string
     sql: ${TABLE}."STATUS" ;;
     #suggestions: ["@{joel}"]
+  }
+
+  dimension: status_2 {
+    type: string
+    sql: '<div>Going to link to more contacts and other objects too</div>' ;;
+    html: {{ value }} ;;
   }
 
   dimension: user_id {
