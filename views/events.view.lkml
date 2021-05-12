@@ -3,6 +3,7 @@ view: events {
     ;;
   drill_fields: [id]
 
+
   dimension: id {
     primary_key: yes
     type: number
@@ -19,10 +20,17 @@ view: events {
     sql: ${TABLE}."CITY" ;;
   }
 
+
+
   dimension: country {
     type: string
     map_layer_name: countries
     sql: ${TABLE}."COUNTRY" ;;
+  }
+
+  dimension: kevin_test {
+    type: string
+    sql: CONCAT(${city}, '_', ${country}) ;;
   }
 
   dimension_group: created {

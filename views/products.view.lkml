@@ -8,25 +8,17 @@ view: products {
     type: date
   }
 
-  parameter: andrea_param {
-    type: unquoted
-    allowed_value: {
-      value: "blueberries"
-      label: "blueberries"
-    }
-    allowed_value: {
-      value: "raspberries"
-      label: "raspberries"
-    }
+  parameter: number_1 {
+    type: number
+  }
+  parameter: number_2 {
+    type: number
   }
 
-  dimension: andrea_dim {
-    sql: {% if products.andrea_param._parameter_value == 'blueberries' %} 'bleubs'
-  {% elsif products.andrea_param._parameter_value == 'raspberries' %} 'rasps'
-  {% else %} 'c'
-  {% endif %} ;;
+  dimension: calculator {
+    type: number
+    sql: {% parameter number_1 %} + {% parameter number_2 %};;
   }
-
 
 
 
@@ -38,6 +30,7 @@ view: products {
 
   measure: sum_of_costs {
     type: sum
+    value_format_name: decimal_2
     sql: ${cost} ;;
   }
 
@@ -77,12 +70,17 @@ view: products {
 
   dimension: cost {
     type: number
+    value_format_name: usd
     sql: ${TABLE}."COST" ;;
-    # link: {
-    #   url: "www.google.com"
-    #   label: "google"
-    # }
-    html:  <a href="https://www.google.com">{{ value }}</a> ;;
+  }
+
+
+  dimension: expense_range {
+    type: string
+    sql: case when ${cost}<50 then 'cheap'
+     when ${cost}<150 and ${cost}>= 50 then 'affordable'
+     when ${cost}<250 and ${cost}>= 150 then 'less affordable'
+    else 'expensive' end;;
   }
 
   dimension: over_100 {

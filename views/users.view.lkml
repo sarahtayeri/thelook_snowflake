@@ -17,8 +17,12 @@ view: users {
 
   filter: sarah_filter {
     suggest_dimension: state
-    default_value: "California"
-    sql: {% condition %} users."STATE" {% endcondition %} ;;
+    #default_value: "California"
+    #sql: {% condition %} ${state} {% endcondition %} ;;
+  }
+
+  dimension: goes_with_filter {
+    sql: case when {% condition sarah_filter %} 'California' {% endcondition %} then 'CA' else 'whatever' end ;;
   }
 
 
@@ -96,6 +100,21 @@ view: users {
     type: string
     sql: ${TABLE}."STATE" ;;
     map_layer_name: us_states
+    html:
+    {% if state._value =='Aberdeen' %}
+    <p style="font-size: 110%; color : #B94C6A">
+    <b>19:</b>
+    <font color="#888888">
+    {{state._rendered_value}}
+    </font>
+    </p>
+    {% else %}
+    {{state._rendered_value}}
+    {% endif %}
+
+
+
+    ;;
   }
 
   dimension: is_named_sarah {
@@ -111,6 +130,15 @@ view: users {
   dimension: zip {
     type: zipcode
     sql: ${TABLE}."ZIP" ;;
+  }
+
+  dimension: terence {
+    type: string
+    sql: {% if users.zip._in_query and users.state._in_query %} 'both in the query'
+    {% elsif users.zip._in_query %} 'zip in query'
+    {% elsif users.state._in_query %} 'state in query'
+    {% else %} 'neither in query'
+    {% endif %};;
   }
 
   measure: count {

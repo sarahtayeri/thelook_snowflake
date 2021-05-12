@@ -28,6 +28,17 @@ view: inventory_items {
     sql: ${TABLE}."CREATED_AT" ;;
   }
 
+  measure: daniel_1 {
+    type: max
+    sql: case when ${product_brand}='Jeans' then 1 end;;
+  }
+
+  measure: daniel {
+    type: number
+    sql:  case when ${product_brand}='Jeans' then ${daniel_1}
+    else ${count} end;;
+  }
+
   dimension: product_brand {
     type: string
     sql: ${TABLE}."PRODUCT_BRAND" ;;
@@ -62,6 +73,13 @@ view: inventory_items {
   dimension: product_retail_price {
     type: number
     sql: ${TABLE}."PRODUCT_RETAIL_PRICE" ;;
+    value_format_name: usd
+  }
+
+  measure: avg_retail_price {
+    type: average
+    sql: ${product_retail_price} ;;
+    value_format_name: usd
   }
 
   dimension: product_sku {
