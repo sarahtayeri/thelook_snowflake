@@ -46,6 +46,23 @@ view: order_items {
     default_value: "Date"
   }
 
+
+
+  dimension: case_when {
+    type: string
+    sql:
+    CASE
+    WHEN {% parameter timeframe_picker %} = 'Date' THEN ${order_items.created_date}
+    WHEN {% parameter timeframe_picker %} = 'Week' THEN ${order_items.created_week}
+    WHEN {% parameter timeframe_picker %} = 'Month' THEN ${middle_man}
+    END ;;
+  }
+
+  dimension: middle_man {
+    sql: ${inventory_items.created_month} ;;
+  }
+
+
   dimension: dynamic_timeframe {
     type: string
     sql:
@@ -121,6 +138,7 @@ view: order_items {
   dimension: order_id {
     type: number
     sql: ${TABLE}."ORDER_ID" ;;
+    #sql: case when  ;;
   }
 
   dimension_group: returned {
@@ -207,6 +225,22 @@ view: order_items {
   measure: count {
     type: count
     drill_fields: [detail*]
+    # html: {% if order_items.status._value == 'Complete' %}
+    # <p style="color: red;">{{ rendered_value }}</p>
+    # {% else %}
+    # <p style="color: black;">{{rendered_value}}</p>
+    # {% endif %}
+    # ;;
+  }
+
+  measure: html_cindy {
+    type: date
+    sql: max(${created_date}) ;;
+    html: {% if order_items.created_date._value < order_items.delivered_date._value %}
+    <p style="color: red;">{{ rendered_value }}</p>
+    {% else %}
+    <p style="color: black;">{{rendered_value}}</p>
+    {% endif %} ;;
   }
 
   measure: average_sale_price {

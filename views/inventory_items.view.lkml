@@ -7,6 +7,11 @@ view: inventory_items {
     primary_key: yes
     type: number
     sql: ${TABLE}."ID" ;;
+    #html:<a href="/dashboards/1234"> {{ value }} </a> ;;
+    link: {
+      label: "Parul"
+      url: "/dashboards/1234"
+    }
   }
 
   dimension: cost {
@@ -80,6 +85,8 @@ view: inventory_items {
     type: average
     sql: ${product_retail_price} ;;
     value_format_name: usd
+    #html: <p style="font-size:30px"> Title here <br> {{value}} </p> ;;
+
   }
 
   dimension: product_sku {
@@ -104,5 +111,11 @@ view: inventory_items {
   measure: count {
     type: count
     drill_fields: [id, product_name, products.name, products.id, order_items.count]
+    # link: {
+    #   url: "/explore/sarah_is_number_1/order_items?fields=inventory_items.count&f[inventory_items.product_department]={{ inventory_items.product_department._value }}"
+    #   label: "conrad"
+    # }
+
+
   }
 }
