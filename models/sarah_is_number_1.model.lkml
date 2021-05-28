@@ -4,6 +4,7 @@ connection: "snowflakelooker"
 #comment
 
 include: "/views/**/*.view"
+include: "/stephen.dashboard"
 
 
 

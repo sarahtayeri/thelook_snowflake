@@ -268,6 +268,7 @@ view: order_items {
   measure: average {
     type: average
     sql: ${id} ;;
+    value_format_name: decimal_0
   }
 
   # ----- Sets of fields for drilling ------
