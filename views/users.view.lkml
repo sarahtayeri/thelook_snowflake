@@ -32,6 +32,16 @@ view: users {
     sql: ${TABLE}."AGE" ;;
   }
 
+  dimension: is_over_25 {
+    type: yesno
+    sql: ${age}>=25 ;;
+  }
+
+  measure: count_over_25 {
+    type: count
+    filters: [is_over_25: "Yes"]
+  }
+
   dimension: city {
     type: string
     sql: ${TABLE}."CITY" ;;
@@ -144,6 +154,11 @@ view: users {
   measure: count {
     type: count
     drill_fields: [id, last_name, first_name, events.count, order_items.count]
+  }
+
+  measure: sum_of_ages {
+    type: sum
+    sql: ${age} ;;
   }
 
   measure: percent {

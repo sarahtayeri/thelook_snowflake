@@ -222,6 +222,11 @@ view: order_items {
     {% endif %};;
   }
 
+  measure: marc_count {
+    type: count_distinct
+    sql: ${inventory_item_id} ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [detail*]

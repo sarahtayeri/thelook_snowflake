@@ -1,7 +1,7 @@
 - dashboard: new_col_for_lookml
   title: new col for lookml
   layout: newspaper
-  preferred_viewer: dashboards-next
+  preferred_viewer: dashboards
   elements:
   - title: New Tile
     name: New Tile

@@ -111,10 +111,10 @@ view: inventory_items {
   measure: count {
     type: count
     drill_fields: [id, product_name, products.name, products.id, order_items.count]
-    # link: {
-    #   url: "/explore/sarah_is_number_1/order_items?fields=inventory_items.count&f[inventory_items.product_department]={{ inventory_items.product_department._value }}"
-    #   label: "conrad"
-    # }
+    link: {
+      url: "/explore/sarah_is_number_1/order_items?fields=inventory_items.count,order_items.id&sorts=inventory_items.count+desc&limit=500"
+      label: "conrad"
+    }
 
 
   }
