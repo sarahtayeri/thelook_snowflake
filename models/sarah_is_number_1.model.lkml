@@ -6,6 +6,7 @@ connection: "snowflakelooker"
 include: "/views/**/*.view"
 include: "/stephen.dashboard"
 include: "/column.dashboard"
+include: "/column_next.dashboard"
 
 
 

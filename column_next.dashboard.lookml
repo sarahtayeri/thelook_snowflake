@@ -1,4 +1,4 @@
-- dashboard: new_col_for_lookml
+- dashboard: new_col_for_lookml_next
   title: new col for lookml
   layout: newspaper
   preferred_viewer: dashboards-next
