@@ -42,29 +42,12 @@ view: order_items {
     allowed_value: { value: "Date" }
     allowed_value: { value: "Week" }
     allowed_value: { value: "Month" }
-    allowed_value: { value: "YTD" }
     default_value: "Date"
   }
 
-
-
-  dimension: case_when {
-    type: string
-    sql:
-    CASE
-    WHEN {% parameter timeframe_picker %} = 'Date' THEN ${order_items.created_date}
-    WHEN {% parameter timeframe_picker %} = 'Week' THEN ${order_items.created_week}
-    WHEN {% parameter timeframe_picker %} = 'Month' THEN ${middle_man}
-    END ;;
-  }
-
-  dimension: middle_man {
-    sql: ${inventory_items.created_month} ;;
-  }
-
-
   dimension: dynamic_timeframe {
     type: string
+    label: "Text here {% parameter timeframe_picker %}"
     sql:
     CASE
     WHEN {% parameter timeframe_picker %} = 'Date' THEN ${order_items.created_date}
@@ -178,10 +161,16 @@ view: order_items {
   dimension: status {
     type: string
     sql: ${TABLE}."STATUS" ;;
-    link: {
-      label: "test"
-      url: "https://dcl.dev.looker.com/dashboards-next/938?Second={{value}}"
-    }
+  }
+
+  parameter: status_param {
+    suggest_explore: order_items
+    suggest_dimension: status
+  }
+
+  dimension: status_catcher {
+    type: string
+    sql: {% parameter status_param %};;
   }
 
   dimension: status_2 {
@@ -236,6 +225,12 @@ view: order_items {
     # <p style="color: black;">{{rendered_value}}</p>
     # {% endif %}
     # ;;
+  }
+
+  measure: lauren {
+    type: number
+    sql: ${count}+${average} ;;
+    html: {{order_items.count._value}}  || {{order_items.average._value}};;
   }
 
   measure: html_cindy {
