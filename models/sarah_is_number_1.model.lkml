@@ -72,6 +72,7 @@ explore: order_items {
     relationship: many_to_one
   }
   join: events {
+    fields: []
     type: left_outer
     sql_on: ${order_items.id} = ${events.id} ;;
     relationship: many_to_one

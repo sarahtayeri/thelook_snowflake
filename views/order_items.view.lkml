@@ -34,6 +34,10 @@ view: order_items {
   }
 
 
+dimension: events_field {
+  sql: ${events.city} ;;
+}
+
 
 
   parameter: timeframe_picker {
@@ -161,6 +165,16 @@ view: order_items {
   dimension: status {
     type: string
     sql: ${TABLE}."STATUS" ;;
+  }
+
+  dimension: status_value {
+    type: string
+    sql: {{ order_items.status._value }} ;;
+  }
+
+  dimension: long_values {
+    type: string
+    sql: case when ${status} = 'Cancelled' then 'This is my super long field name ahhhhhhh' else ${status} end ;;
   }
 
   parameter: status_param {
