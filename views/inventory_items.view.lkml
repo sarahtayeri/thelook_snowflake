@@ -14,6 +14,12 @@ view: inventory_items {
     }
   }
 
+
+
+  dimension: blah {
+    sql:  12344 ;;
+  }
+
   dimension: cost {
     type: number
     sql: ${TABLE}."COST" ;;
@@ -115,7 +121,13 @@ view: inventory_items {
       url: "/explore/sarah_is_number_1/order_items?fields=inventory_items.count,order_items.id&sorts=inventory_items.count+desc&limit=500"
       label: "conrad"
     }
-
-
   }
+
+  measure: david_list {
+    type: list
+    list_field: product_category
+  }
+
+
+
 }

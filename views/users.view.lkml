@@ -15,6 +15,11 @@ view: users {
     value_format_name: percent_2
   }
 
+  filter: daisy_filter {
+    type: date
+    sql: {% condition %} ${city} {% endcondition %} ;;
+  }
+
   filter: sarah_filter {
     suggest_dimension: state
     #default_value: "California"
@@ -45,6 +50,7 @@ view: users {
   dimension: city {
     type: string
     sql: ${TABLE}."CITY" ;;
+    html: <p style="margin: 15px">{{ rendered_value }}</p> ;;
   }
 
   dimension: country {
@@ -125,6 +131,34 @@ view: users {
 
 
     ;;
+  }
+
+  # parameter: state_filter {
+  #   suggest_explore: order_items
+  #   suggest_dimension: users.states
+  # }
+
+
+  dimension: states {
+    type: string
+    sql: ${TABLE}."STATE";;
+  }
+
+  # dimension: middleman {
+  #   type: yesno
+  #   sql: ${states} = {{state_filter._parameter_value}} ;;
+  # }
+
+
+
+  filter: state_filter {
+    suggest_explore: order_items
+    suggest_dimension: users.states
+  }
+
+  dimension: yesno_field {
+    type: yesno
+    sql: {% condition state_filter %} ${states} {% endcondition %} ;;
   }
 
   dimension: is_named_sarah {

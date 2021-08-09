@@ -34,6 +34,12 @@ view: products {
     sql: ${cost} ;;
   }
 
+  measure: for_sankey {
+    type: number
+    sql: ${count}/${sum_of_costs} ;;
+    value_format_name: percent_2
+  }
+
   dimension: id {
     primary_key: yes
     type: number
@@ -103,11 +109,24 @@ view: products {
   dimension: name {
     type: string
     sql: ${TABLE}."NAME" ;;
+    drill_fields: [department, category]
+    #html: {{rendered_value}} ;;
+    link: {
+      url: "/explore/sarah_is_number_1/order_items?fields=products.name,products.category,products.brand&f[products.name]={{value}}"
+      label: "mist test"
+      }
   }
 
   dimension: long_dimension {
     type: string
     sql: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, qui. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, qui.' ;;
+
+  }
+
+  dimension: long_dimension_with_html {
+    type: string
+    sql: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, qui. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, qui.' ;;
+    html: <p style="font-size:50%">{{ rendered_value }}</p> ;;
   }
 
   dimension: retail_price {

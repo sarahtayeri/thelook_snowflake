@@ -8,6 +8,16 @@ view: order_items {
     suggest_dimension: events.browser
   }
 
+  filter: timothy {
+    type: date
+    default_value: "2018"
+    sql:{% condition %} ${created_date} {% endcondition %} ;;
+  }
+
+  dimension: timothy_dim {
+    sql: ${returned_date} > {% date_end timothy %} ;;
+  }
+
 
   parameter: select_1 {
     allowed_value: {
@@ -38,6 +48,25 @@ dimension: events_field {
   sql: ${events.city} ;;
 }
 
+filter: gal_filter {
+  type: date
+}
+
+
+dimension: gal_test {
+  type: yesno
+  sql: ${created_date} > {% date_start gal_filter %} ;;
+}
+
+
+dimension: gal_middle {
+  sql: {% date_start gal_filter %} ;;
+}
+
+dimension: gal_test2 {
+  type: string
+  sql: {% if created_date._value > gal_middle._value %} 'yes' {% else %} 'no' {% endif %};;
+}
 
 
   parameter: timeframe_picker {
@@ -74,9 +103,11 @@ dimension: events_field {
     primary_key: yes
     type: number
     sql: ${TABLE}."ID" ;;
+    value_format_name: usd
   }
 
   dimension_group: created {
+    convert_tz: no
     type: time
     timeframes: [
       raw,
@@ -172,6 +203,26 @@ dimension: events_field {
     sql: {{ order_items.status._value }} ;;
   }
 
+
+  measure: mike_test {
+    type: number
+    sql: 1 ;;
+    html: {% if order_items.status._value == 'Cancelled' %} {{order_items.if_1._value}}
+    {% elsif order_items.status._value == 'Complete' %} {{order_items.if_2._value}}
+    {% else %} 123
+    {% endif %};;
+  }
+
+  measure: if_1 {
+    type: number
+    sql: ${count}/${average} ;;
+  }
+
+  measure: if_2 {
+    type: number
+    sql: ${average}/${count} ;;
+  }
+
   dimension: long_values {
     type: string
     sql: case when ${status} = 'Cancelled' then 'This is my super long field name ahhhhhhh' else ${status} end ;;
@@ -228,6 +279,11 @@ dimension: events_field {
   measure: marc_count {
     type: count_distinct
     sql: ${inventory_item_id} ;;
+  }
+
+  measure: sum_sale_price {
+    type: sum
+    sql: ${sale_price} ;;
   }
 
   measure: count {
@@ -295,5 +351,13 @@ dimension: events_field {
       users.first_name,
       users.id
     ]
+  }
+}
+
+
+view: +order_items {
+
+  measure: average {
+    hidden: yes
   }
 }

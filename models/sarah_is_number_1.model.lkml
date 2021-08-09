@@ -7,7 +7,7 @@ include: "/views/**/*.view"
 include: "/stephen.dashboard"
 include: "/column.dashboard"
 include: "/column_next.dashboard"
-
+include: "//bitbucket_sarah/views/flights.view"
 
 
 datagroup: sarah_is_number_1_default_datagroup {
@@ -17,14 +17,22 @@ datagroup: sarah_is_number_1_default_datagroup {
 
 persist_with: sarah_is_number_1_default_datagroup
 
-explore: derived_parameter {}
+explore: derived_parameter {
+}
 
-explore: distribution_centers {}
+explore: distribution_centers {
+  # access_filter: {
+  #   field: id
+  #   user_attribute: id
+  # }
+}
 
 explore: etl_jobs {}
 
 explore: events {
+  sql_always_where: {% if users.id._in_query %} events.id is not null OR users.id is not null {% else %} events.id is not null {% endif %} ;;
   join: users {
+    #sql_where: events.id is not null OR users.id is not null ;;
     type: left_outer
     sql_on: ${events.user_id} = ${users.id} ;;
     relationship: many_to_one
@@ -79,6 +87,12 @@ explore: order_items {
     }
 
 }
+
+# explore: flights {
+#   join: events {
+#     sql_on: ${flights.id} = ${events.id} ;;
+#   }
+# }
 
 
 
