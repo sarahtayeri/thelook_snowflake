@@ -127,6 +127,12 @@ view: users {
     ;;
   }
 
+
+  filter: state_filter {
+    suggest_explore: users
+    suggest_dimension: users.state
+  }
+
   dimension: is_named_sarah {
     type: yesno
     sql: ${first_name}='Sarah' ;;

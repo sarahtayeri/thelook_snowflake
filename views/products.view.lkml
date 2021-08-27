@@ -21,6 +21,12 @@ view: products {
   }
 
 
+  filter: filter_two_fields {
+    type: string
+    sql: {% condition %} ${name} {% endcondition %} and {% condition %} ${brand} {% endcondition %} ;;
+  }
+
+
 
   measure: sum_in_billions {
     type: sum
@@ -55,6 +61,7 @@ view: products {
   dimension: category {
     type: string
     sql: ${TABLE}."CATEGORY" ;;
+    suggestable: no
   }
 
   dimension: seconds {

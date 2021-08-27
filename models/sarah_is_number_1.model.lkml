@@ -7,7 +7,7 @@ include: "/views/**/*.view"
 include: "/stephen.dashboard"
 include: "/column.dashboard"
 include: "/column_next.dashboard"
-
+include: "/required_filter.dashboard"
 
 
 datagroup: sarah_is_number_1_default_datagroup {
@@ -19,7 +19,14 @@ persist_with: sarah_is_number_1_default_datagroup
 
 explore: derived_parameter {}
 
-explore: distribution_centers {}
+explore: distribution_centers {
+  access_filter: {
+    field: distribution_centers.id
+    user_attribute: people_whose_data_i_can_see
+  }
+}
+
+explore: derived_ua {}
 
 explore: etl_jobs {}
 
@@ -46,6 +53,9 @@ explore: inventory_items {
 }
 
 explore: order_items {
+  persist_for: "0 seconds"
+  sql_always_where: {% condition users.state_filter %} ${users.state} {% endcondition %} ;;
+
   join: inventory_items {
     type: left_outer
     sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
