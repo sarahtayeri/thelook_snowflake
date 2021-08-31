@@ -229,19 +229,17 @@ dimension: gal_test2 {
   }
 
   parameter: status_param {
-    suggest_explore: order_items
-    suggest_dimension: status
+    allowed_value: {
+      value: "complete"
+      label: "complete"
+    }
+    allowed_value: {
+      value: "cancelled"
+      label: "cancelled"
+    }
   }
 
-  dimension: status_catcher {
-    type: string
-    sql: {% parameter status_param %};;
-  }
 
-  dimension: status_2 {
-    type: string
-    sql: 'hello';;
-  }
 
   dimension: user_id {
     type: number

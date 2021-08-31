@@ -10,6 +10,12 @@ view: events {
     sql: ${TABLE}."ID" ;;
   }
 
+  dimension: image {
+    type: string
+    sql: https://logo-core.clearbit.com/looker.com ;;
+    html: <img src="{{value}}" /> ;;
+  }
+
   dimension: browser {
     type: string
     sql: ${TABLE}."BROWSER" ;;

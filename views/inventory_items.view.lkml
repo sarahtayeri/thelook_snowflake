@@ -39,6 +39,18 @@ view: inventory_items {
     sql: ${TABLE}."CREATED_AT" ;;
   }
 
+
+  dimension: created_date_html {
+    type: date
+    sql: ${created_date} ;;
+    html: {% assign arbitrary_day_number = "25" %}
+{% assign month_number = rendered_value | split: "-" | last %}
+{% assign year_number = rendered_value | split: "-" | first %}
+
+{% assign full_date = arbitrary_day_number | append: "-" | append: month_number | append: "-" | append: year_number | date: "%b %Y" %}
+{{ full_date }} ;;
+  }
+
   measure: daniel_1 {
     type: max
     sql: case when ${product_brand}='Jeans' then 1 end;;
@@ -121,6 +133,7 @@ view: inventory_items {
       url: "/explore/sarah_is_number_1/order_items?fields=inventory_items.count,order_items.id&sorts=inventory_items.count+desc&limit=500"
       label: "conrad"
     }
+    filters: [sold_date: "NULL"]
   }
 
   measure: david_list {

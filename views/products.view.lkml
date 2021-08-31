@@ -80,6 +80,15 @@ view: products {
     sql: ${TABLE}."COST" ;;
   }
 
+  parameter: vertical_date{
+    type: date
+  }
+
+  dimension: vertical_date_value {
+    type: date
+    sql: {% parameter vertical_date %} ;;
+  }
+
 
   dimension: expense_range {
     type: string
