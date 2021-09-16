@@ -8,11 +8,13 @@ view: events {
     primary_key: yes
     type: number
     sql: ${TABLE}."ID" ;;
+    group_label: "test1"
   }
 
   dimension: browser {
     type: string
     sql: ${TABLE}."BROWSER" ;;
+    group_label: "test1"
   }
 
   dimension: city {
