@@ -8,7 +8,8 @@ include: "/stephen.dashboard"
 include: "/column.dashboard"
 include: "/column_next.dashboard"
 include: "/required_filter.dashboard"
-
+include: "/quickstarts.explore"
+include: "/constants_for_model.dashboard"
 
 datagroup: sarah_is_number_1_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -88,6 +89,40 @@ explore: order_items {
     relationship: many_to_one
     }
 
+}
+
+explore: extended_events {}
+
+# Place in `sarah_is_number_1` model
+explore: +order_items {
+    query: test{
+      dimensions: [id, status]
+      pivots: [status]
+      measures: [average]
+      filters: [order_items.created_date: "", order_items.delivered_date: ""]
+      #timezone: "America/Los_Angeles"
+    }
+  }
+
+explore: +order_items {
+  query: test2{
+    dimensions: [id, status]
+    pivots: [status]
+    measures: [average]
+    filters: [order_items.created_date: "", order_items.delivered_date: ""]
+    #timezone: "America/Los_Angeles"
+  }
+}
+
+
+
+explore: users {
+  sql_always_where: {% if users.state_parameter._is_filtered %} {% condition users.state_parameter %} ${users.state} {% endcondition %} {% else %} ${users.state} = 'Alaska' {% endif %} ;;
+  join: events {
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${events.id} = ${users.id};;
+  }
 }
 
 

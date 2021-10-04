@@ -28,9 +28,15 @@ view: inventory_items {
       week,
       month,
       quarter,
+      day_of_week,
       year
     ]
     sql: ${TABLE}."CREATED_AT" ;;
+  }
+
+  dimension: difference {
+    type: number
+    sql: datediff(day, {% date_start created_date %}, {% date_end created_date %}) ;;
   }
 
   measure: daniel_1 {

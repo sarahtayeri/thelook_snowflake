@@ -133,6 +133,11 @@ view: users {
     suggest_dimension: users.state
   }
 
+  parameter: state_parameter {
+    suggest_explore: order_items
+    suggest_dimension: users.state
+  }
+
   dimension: is_named_sarah {
     type: yesno
     sql: ${first_name}='Sarah' ;;

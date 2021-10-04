@@ -74,6 +74,22 @@ dimension: events_field {
     primary_key: yes
     type: number
     sql: ${TABLE}."ID" ;;
+    # html: {% if value > 5 %}
+    # {{value}} !
+    # {% else %}
+    # {{value}}
+    # {%endif%};;
+  }
+
+  dimension: id_2 {
+    sql: ${id}*(-1) ;;
+    type: number
+    html: {{ value | abs }} ;;
+  }
+
+  measure: max_id {
+    type: max
+    sql: ${id} ;;
   }
 
   dimension_group: created {
@@ -140,6 +156,7 @@ dimension: events_field {
       year
     ]
     sql: ${TABLE}."RETURNED_AT" ;;
+    html:  <p style="font-size:50%; text-align:center">{{ rendered_value }}</p> ;;
   }
 
   dimension: sale_price {
@@ -232,13 +249,40 @@ dimension: events_field {
 
   measure: count {
     type: count
-    drill_fields: [detail*]
-    # html: {% if order_items.status._value == 'Complete' %}
-    # <p style="color: red;">{{ rendered_value }}</p>
-    # {% else %}
-    # <p style="color: black;">{{rendered_value}}</p>
-    # {% endif %}
-    # ;;
+    #drill_fields: [detail*]
+    link: {
+      url: "https://www.google.com"
+      icon_url:
+      "{% if order_items.status._value == 'Complete' %}
+      https://logo-core.clearbit.com/looker.com
+      {% else %}
+      https://logo-core.clearbit.com/google.com
+      {% endif %}"
+      label: "test"
+    }
+  }
+
+  measure: count_of_cancelled {
+    type: count
+    filters: [status: "Cancelled"]
+  }
+  measure: count_of_complete {
+    type: count
+    filters: [status: "Complete"]
+  }
+
+  dimension: icon {
+    sql: 'https://logo-core.clearbit.com/looker.com' ;;
+  }
+
+  measure: running_total_count {
+    type: running_total
+    sql: ${count} ;;
+    link: {
+      url: "https://google.com"
+      icon_url: "https://logo-core.clearbit.com/looker.com"
+      label: "test2"
+    }
   }
 
   measure: lauren {
@@ -283,6 +327,10 @@ dimension: events_field {
     type: average
     sql: ${id} ;;
     value_format_name: decimal_0
+  }
+
+  measure: no_sql_param {
+    type: average
   }
 
   # ----- Sets of fields for drilling ------

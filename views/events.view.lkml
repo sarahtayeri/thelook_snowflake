@@ -8,18 +8,26 @@ view: events {
     primary_key: yes
     type: number
     sql: ${TABLE}."ID" ;;
-    group_label: "test1"
+    #group_label: "test1"
   }
+
+
 
   dimension: browser {
     type: string
     sql: ${TABLE}."BROWSER" ;;
-    group_label: "test1"
+    #group_label: "test1"
   }
 
   dimension: city {
+    #label: "@{first_name}"
     type: string
     sql: ${TABLE}."CITY" ;;
+  }
+
+  dimension: city_type {
+    type: string
+    sql: TYPEOF(${TABLE}."CITY") ;;
   }
 
 
@@ -47,6 +55,25 @@ view: events {
       year
     ]
     sql: ${TABLE}."CREATED_AT" ;;
+  }
+
+  dimension_group: created_plus_1_hr {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: DATEADD(hour, 1, ${TABLE}."CREATED_AT") ;;
+  }
+
+  dimension: date_diff {
+    type: number
+    sql: DATEDIFF(day, ${created_date}, ${created_plus_1_hr_date}) ;;
   }
 
   dimension: event_type {
@@ -113,5 +140,12 @@ view: events {
   measure: count {
     type: count
     drill_fields: [id, users.last_name, users.first_name, users.id]
+  }
+}
+
+
+view: +events {
+  dimension: included_in_refinemenet {
+    sql: ${zip} ;;
   }
 }
