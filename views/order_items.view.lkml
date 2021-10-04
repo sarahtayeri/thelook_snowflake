@@ -330,7 +330,7 @@ dimension: events_field {
   }
 
   measure: no_sql_param {
-    type: average
+    type: count_distinct
   }
 
   # ----- Sets of fields for drilling ------
