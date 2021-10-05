@@ -8,6 +8,12 @@ view: products {
     type: date
   }
 
+  dimension: new_name {
+    type: string
+    sql: ${category} ;;
+    label: "The name of the product"
+  }
+
   parameter: number_1 {
     type: number
   }
