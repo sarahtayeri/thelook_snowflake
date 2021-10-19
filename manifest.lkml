@@ -21,3 +21,7 @@ constant: model_constant {
 constant: default_value_constant {
   value: "Cancelled, Shipped"
 }
+
+constant: table_name {
+  value: "\"PUBLIC\".\"EVENTS\""
+}

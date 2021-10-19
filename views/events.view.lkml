@@ -1,5 +1,7 @@
 view: events {
-  sql_table_name: "PUBLIC"."EVENTS"
+
+  #sql_table_name: "PUBLIC"."EVENTS"
+  sql_table_name: @{table_name}
     ;;
   drill_fields: [id]
 

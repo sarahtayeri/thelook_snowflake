@@ -10,7 +10,7 @@ include: "/column_next.dashboard"
 include: "/required_filter.dashboard"
 include: "/quickstarts.explore"
 include: "/constants_for_model.dashboard"
-
+include: "/line_break.dashboard"
 datagroup: sarah_is_number_1_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
   max_cache_age: "1 hour"
@@ -55,7 +55,7 @@ explore: inventory_items {
 
 explore: order_items {
   persist_for: "0 seconds"
-  sql_always_where: {% condition users.state_filter %} ${users.state} {% endcondition %} ;;
+  #sql_always_where: {% condition users.state_filter %} ${users.state} {% endcondition %} ;;
 
   join: inventory_items {
     type: left_outer
@@ -73,7 +73,9 @@ explore: order_items {
 
   join: products {
     type: left_outer
-    sql_on: ${inventory_items.product_id} = ${products.id} ;;
+    sql_on: ${inventory_items.product_id} = ${products.id}
+  {% if users._in_query %} AND users."ID" = ${products.id} {% else %} AND 1=1 {% endif %};;
+    #sql_on: ${inventory_items.product_id} = ${products.id} ;;
     relationship: many_to_one
   }
 
@@ -83,7 +85,6 @@ explore: order_items {
     relationship: many_to_one
   }
   join: events {
-    fields: []
     type: left_outer
     sql_on: ${order_items.id} = ${events.id} ;;
     relationship: many_to_one

@@ -33,6 +33,11 @@ view: order_items {
           WHEN {% parameter select_1 %} = 'status_filtered' THEN ${status_filtered} END;;
   }
 
+  dimension: lorem_ipsum {
+    type: string
+    sql: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';;
+  }
+
 
 dimension: events_field {
   sql: ${events.city} ;;
@@ -177,6 +182,15 @@ dimension: events_field {
       year
     ]
     sql: ${TABLE}."SHIPPED_AT" ;;
+  }
+
+  parameter: zheng {
+    type: string
+  }
+
+  dimension: zheng_dim {
+    type: yesno
+    sql: ${status} = {% parameter zheng %} ;;
   }
 
   dimension: status {
