@@ -68,6 +68,11 @@ view: events {
     ;;
   }
 
+  measure: agg_date {
+    type: date
+    sql: max(${created_date}) ;;
+  }
+
   dimension_group: created_plus_1_hr {
     type: time
     timeframes: [
