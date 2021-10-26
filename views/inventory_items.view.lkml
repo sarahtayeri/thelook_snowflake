@@ -67,6 +67,7 @@ view: inventory_items {
 
   dimension: product_distribution_center_id {
     type: number
+    label: "long label blah product distribution center id id id id id id sarah tayeri"
     sql: ${TABLE}."PRODUCT_DISTRIBUTION_CENTER_ID" ;;
   }
 

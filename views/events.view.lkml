@@ -59,6 +59,15 @@ view: events {
     sql: ${TABLE}."CREATED_AT" ;;
   }
 
+  measure: ugly {
+    type: string
+    sql: concat(max(${created_date}), ${count}) ;;
+    html: {{created_date._value}}
+    <br>
+    {{count._value}}
+    ;;
+  }
+
   dimension_group: created_plus_1_hr {
     type: time
     timeframes: [
@@ -141,8 +150,12 @@ view: events {
 
   measure: count {
     type: count
-    drill_fields: [id, users.last_name, users.first_name, users.id]
-  }
+    #drill_fields: [id, users.last_name, users.first_name, users.id]
+    link: {
+      label: "link"
+      url: "https://dcl.dev.looker.com/dashboards-next/123"
+    }
+    }
 }
 
 
